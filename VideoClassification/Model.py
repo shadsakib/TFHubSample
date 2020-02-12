@@ -13,7 +13,7 @@ class Model:
         self._build_architecture(params)
 
     def _build_model(self, images):
-        self.module = hub.Module("https://tfhub.dev/deepmind/i3d-kinetics-400/1", trainable=True)
+        self.module = hub.Module("https://tfhub.dev/deepmind/i3d-kinetics-600/1", trainable=True)
         #print(module.get_signature_names())
         features = self.module(dict(rgb_input=images))
         #print(features)
@@ -22,7 +22,7 @@ class Model:
             mean = 0.0
             stddev = 0.1
             weight = tf.get_variable('weights',
-                                     initializer=tf.truncated_normal((400, self._n_class), mean=mean,
+                                     initializer=tf.truncated_normal((600, self._n_class), mean=mean,
                                                                      stddev=stddev, seed=189))
             bias = tf.get_variable('bias', initializer=tf.ones((self._n_class)))
             logits = tf.nn.xw_plus_b(features, weight, bias)
