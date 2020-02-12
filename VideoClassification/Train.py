@@ -21,7 +21,7 @@ class Train:
         self.data = Data(params)
         n_class = len(params['REQD_LABELS'])
         self.model = Model(params, n_class=n_class)
-        self._save_path = os.path.abspath('./Model')
+        self._save_path = os.path.abspath('/content/VideoClassification/SavedModel')
 
     def train(self):
         shutil.rmtree(self._save_path, ignore_errors=True)
@@ -105,3 +105,6 @@ class Train:
 
         export_dir = os.path.join(self._save_path, str(epoch_no))
         tf.saved_model.simple_save(sess, export_dir, inputs, outputs)
+
+        saver = tf.train.Saver()
+        save_path = saver.save(sess, export_dir+"/"+f"{epoch_no}.ckpt")
